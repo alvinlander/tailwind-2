@@ -12,11 +12,20 @@ function index() {
   };
 
   useEffect(() => {
-    document.querySelector('html').classList.add(localStorage.getItem('theme'));
-  });
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.querySelector('html').classList.add('dark');
+    } else {
+      document.querySelector('html').classList.remove('dark');
+    }
+    localStorage.removeItem('theme');
+  }, []);
   return (
     <div className="antialiased flex items-center justify-center min-h-screen bg-gray-200 dark:bg-gray-700">
-      <div className="w-5/12 shadow-2xl">
+      <div className="w-5/12">
         <div className="bg-white dark:bg-gray-800 shadow p-4 rounded mb-6 flex items-center justify-between">
           <div className="font-semibold text-lg text-gray-800 dark:text-white">
             Switcher
